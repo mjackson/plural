@@ -183,3 +183,15 @@ class Plural
 // load the English language by default
 Plural::loadLanguage('en');
 
+/**
+ * Convenience function for getting the plural form of a singular word.
+ *
+ * @param   string  $word   The singular word
+ * @return  string          The word pluralized
+ * @see     Plural::pluralize()
+ */
+function plural($word)
+{
+    return Plural::pluralize($word);
+}
+
