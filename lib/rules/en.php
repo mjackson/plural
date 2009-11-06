@@ -4,7 +4,7 @@ Plural::setLanguage(basename(__FILE__, '.php'));
 
 // plural word rules. each rule is a regular expression and its replacement
 // note: order here is important!
-Plural::addPlural(array(
+Plural::addRules(array(
     '/(matr|vert|ind)(ix|ex)$/i'    => '\1ices',    // matrix, vertex, index
     '/(quiz)$/i'                    => '\1zes',     // quiz
     '/(ss|sh|ch|x|z)$/i'            => '\1es',      // sibilant rule (no ending e)
@@ -21,14 +21,14 @@ Plural::addPlural(array(
 ));
 
 // words that don't follow any pluralization rules
-Plural::addIrregular(array(
+Plural::addIrregulars(array(
     'man'       => 'men',
     'person'    => 'people',
     'child'     => 'children'
 ));
 
 // words whose singular and plural forms are the same
-Plural::addUncountable(array(
+Plural::addUncountables(array(
     'news',
     'money',
     'equipment',

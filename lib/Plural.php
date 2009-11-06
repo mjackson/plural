@@ -14,7 +14,7 @@ class Plural
      *
      * @var string
      */
-    const VERSION = '0.1';
+    const VERSION = '0.2';
 
     /**
      * An array of all rules that have been loaded, keyed by language code.
@@ -31,8 +31,8 @@ class Plural
     protected static $_currentLanguage;
 
     /**
-     * Tells the pluralizer to use a certain set of rules. In order to use this
-     * function, the appropriate rules file must be found in the rules directory.
+     * Loads the language file for the language with the given language code
+     * from the rules directory.
      *
      * @param   string  $language   The language code
      * @return  bool                True on success, false on failure
@@ -41,12 +41,13 @@ class Plural
     {
         if (!isset(self::$_rules[$language])) {
             self::$_rules[$language] = array(
-                'plurals'       => array(),
-                'irregulars'    => array(),
-                'uncountables'  => array()
+                'plural'        => array(),
+                'irregular'     => array(),
+                'uncountable'   => array()
             );
 
             $langFile = dirname(__FILE__) . "/rules/$language.php";
+
             if ((@include_once $langFile) === false) {
                 return false;
             }
@@ -67,66 +68,56 @@ class Plural
     }
 
     /**
-     * Adds a plural rule to the internal array of plural rules. May be used to
-     * add rules one at a time:
+     * Adds a plural rule to the internal array of plural rules.
      *
-     * <code>
-     * Plural::addPlural('/(quiz)$/i', '\1zes');
-     * </code>
-     *
-     * or all at once:
-     *
-     * <code>
-     * Plural::addPlural(array(
-     *     '/(quiz)$/i'            => '\1zes',
-     *     '/(ss|sh|ch|x|z)$/i'    => '\1es',
-     * ));
-     * </code>
-     *
-     * @param   mixed   $rules          An array of rules ($regex => $replace) or
-     *                                  a regular expression
-     * @param   string  $replacement    If rules is a string, the replacement
-     *                                  to use in case of a match
+     * @param   string  $regex      The regular expression to match
+     * @param   string  $replace    The replacement string to use
      * @return  void
      */
-    public static function addPlural($rules, $replacement='')
+    public static function addRule($regex, $replace)
     {
-        if (!is_array($rules)) {
-            $rules = array($rules => $replacement);
-        }
+        self::$_rules[self::$_currentLanguage]['plural'][$regex] = $replace;
+    }
+
+    /**
+     * Adds many plural rules at once. The $rules array should contain regular
+     * expression to replacement value pairs.
+     *
+     * @param   array
+     * @return  void
+     * @see     Plural::addRule()
+     */
+    public static function addRules($rules)
+    {
         foreach ($rules as $regex => $replace) {
-            self::$_rules[self::$_currentLanguage]['plurals'][$regex] = $replace;
+            self::addRule($regex, $replace);
         }
     }
 
     /**
-     * Adds an irregular plural rule to the inflector's internal array of
-     * plural rules. May be used to add rules one at a time:
+     * Adds an irregular plural rule to the internal array of plural rules.
      *
-     * <code>
-     * Plural::addIrregular('man', 'men');
-     * </code>
-     *
-     * or all at once:
-     *
-     * <code>
-     * Plural::addIrregular(array(
-     *     'man'       => 'men',
-     *     'person'    => 'people'
-     * ));
-     * </code>
-     *
-     * @param   mixed   $words      The singular form of the irregular noun(s)
-     * @param   string  $plural     The plural form of the noun
+     * @param   string  $singular   The singular form of the word
+     * @param   string  $plural     The plural form of the word
      * @return  void
      */
-    public static function addIrregular($words, $plural='')
+    public static function addIrregular($singular, $plural)
     {
-        if (!is_array($words)) {
-            $words = array($words => $plural);
-        }
-        foreach ($words as $singular => $plural) {
-            self::$_rules[self::$_currentLanguage]['irregulars'][$singular] = $plural;
+        self::$_rules[self::$_currentLanguage]['irregular'][$singular] = $plural;
+    }
+
+    /**
+     * Adds many irregular plural rules at once. The $rules array should contain
+     * regular expression to replacement value pairs.
+     *
+     * @param   array
+     * @return  void
+     * @see     Plural::addIrregular()
+     */
+    public static function addIrregulars($rules)
+    {
+        foreach ($rules as $singular => $plural) {
+            self::addIrregular($singular, $plural);
         }
     }
 
@@ -134,16 +125,25 @@ class Plural
      * Marks a word as uncountable, meaning that the plural form of the word
      * is the same as its singular form.
      *
-     * @param   mixed   $words  The word(s) to mark as uncountable
+     * @param   string  $word   The word to mark as uncountable
      * @return  void
      */
-    public static function addUncountable($words)
+    public static function addUncountable($word)
     {
-        if (!is_array($words)) {
-            $words = array($words);
-        }
+        self::$_rules[self::$_currentLanguage]['uncountable'][] = $word;
+    }
+
+    /**
+     * Marks many words as uncountable at once.
+     *
+     * @param   array
+     * @return  void
+     * @see     Plural::addUncountable()
+     */
+    public static function addUncountables($words)
+    {
         foreach ($words as $word) {
-            self::$_rules[self::$_currentLanguage]['uncountables'][] = $word;
+            self::addUncountable($word);
         }
     }
 
@@ -162,13 +162,13 @@ class Plural
         $word = trim($word);
         $rules = self::$_rules[self::$_currentLanguage];
 
-        if (in_array($word, $rules['uncountables'])) {
+        if (in_array($word, $rules['uncountable'])) {
             return $word;
         }
-        if (isset($rules['irregulars'][$word])) {
-            return $rules['irregulars'][$word];
+        if (isset($rules['irregular'][$word])) {
+            return $rules['irregular'][$word];
         }
-        foreach ($rules['plurals'] as $regex => $replace) {
+        foreach ($rules['plural'] as $regex => $replace) {
             $word = preg_replace($regex, $replace, $word, 1, $count);
             if ($count) {
                 return $word;
