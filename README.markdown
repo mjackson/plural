@@ -1,6 +1,6 @@
 # Overview
 
-Plural is a library that provides natural language pluralization functions for PHP. Currently the library supports the following languages:
+Plural is a library that provides natural language pluralization functions for PHP. The library currently supports the following languages:
 
 - English
 
@@ -8,9 +8,11 @@ However, Plural can easily be extended to support any language. If your language
 
 # Usage
 
-    Plural::pluralize('matrix'); # matrices
-    Plural::pluralize('mouse');  # mice
-    Plural::pluralize('sheep');  # sheep
+    plural('dog');      # dogs
+    plural('matrix');   # matrices
+    plural('mouse');    # mice
+    plural('person');   # people
+    plural('sheep');    # sheep
 
 # Tests
 
