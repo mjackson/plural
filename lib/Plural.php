@@ -136,7 +136,7 @@ class Plural
             $words = array($words);
         }
         foreach ($words as $word) {
-            self::$_rules[self::$_currentLanguage]['uncountables'][] = trim($word);
+            self::$_rules[self::$_currentLanguage]['uncountables'][] = $word;
         }
     }
 
