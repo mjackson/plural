@@ -24,5 +24,7 @@ Plural uses the [PHPUnit](http://www.phpunit.de/) unit testing framework to test
 
 Plural requires PHP version 5 or greater.
 
-<small>Plural is copyright 2009 Michael J. I. Jackson.</small>
+# License
+
+Plural is released under the terms of the MIT license. Please read the LICENSE file for further information.
 
