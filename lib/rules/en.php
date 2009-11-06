@@ -2,8 +2,8 @@
 
 Plural::setLanguage(basename(__FILE__, '.php'));
 
-// plural word rules. each rule is a regular expression and its replacement. the
-// last rule must be a catch-all. note: order here is important!
+// plural word rules. each rule is a regular expression and its replacement
+// note: order here is important!
 Plural::addPlural(array(
     '/(matr|vert|ind)(ix|ex)$/i'    => '\1ices',    // matrix, vertex, index
     '/(quiz)$/i'                    => '\1zes',     // quiz
