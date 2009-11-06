@@ -148,6 +148,10 @@ class Plural
      */
     public static function pluralize($word)
     {
+        if (!isset(self::$_rules[self::$_currentLanguage])) {
+            return $word;
+        }
+
         $word = trim($word);
         $rules = self::$_rules[self::$_currentLanguage];
 
@@ -163,6 +167,8 @@ class Plural
                 return $word;
             }
         }
+
+        return $word;
     }
 
 }
