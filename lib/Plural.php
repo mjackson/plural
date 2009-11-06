@@ -10,6 +10,13 @@ class Plural
 {
 
     /**
+     * The current version of Plural.
+     *
+     * @var string
+     */
+    const VERSION = '0.1';
+
+    /**
      * An array of all rules that have been loaded, keyed by language code.
      *
      * @var array
