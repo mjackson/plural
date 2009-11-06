@@ -9,17 +9,28 @@
 class Plural
 {
 
+    /**
+     * An array of all rules that have been loaded, keyed by language code.
+     *
+     * @var array
+     */
     protected static $_rules = array();
+
+    /**
+     * The code of the language currently being used.
+     *
+     * @var string
+     */
     protected static $_currentLanguage;
 
     /**
      * Tells the pluralizer to use a certain set of rules. In order to use this
      * function, the appropriate rules file must be found in the rules directory.
      *
-     * @param   string  $lang   The language to use
-     * @return  bool            True on success, false on failure
+     * @param   string  $language   The language code
+     * @return  bool                True on success, false on failure
      */
-    public static function setLanguage($language)
+    public static function loadLanguage($language)
     {
         if (!isset(self::$_rules[$language])) {
             self::$_rules[$language] = array(
@@ -28,12 +39,8 @@ class Plural
                 'uncountables'  => array()
             );
 
-            $oldLanguage = self::$_currentLanguage;
-            self::$_currentLanguage = $language;
-
             $langFile = dirname(__FILE__) . "/rules/$language.php";
             if ((@include_once $langFile) === false) {
-                self::$_currentLanguage = $oldLanguage;
                 return false;
             }
         }
@@ -42,24 +49,35 @@ class Plural
     }
 
     /**
-     * Adds a plural rule to the inflector's internal array of plural rules.
-     * May be used to add rules one at a time:
+     * Sets the {@link Plural::$_currentLanguage current language code}.
+     *
+     * @param   string  $language   The language code
+     * @return  void
+     */
+    public static function setLanguage($language)
+    {
+        self::$_currentLanguage = $language;
+    }
+
+    /**
+     * Adds a plural rule to the internal array of plural rules. May be used to
+     * add rules one at a time:
      *
      * <code>
-     * Inflector::addPlural('/(quiz)$/i', '\1zes');
+     * Plural::addPlural('/(quiz)$/i', '\1zes');
      * </code>
      *
      * or all at once:
      *
      * <code>
-     * Inflector::addPlural(array(
+     * Plural::addPlural(array(
      *     '/(quiz)$/i'            => '\1zes',
      *     '/(ss|sh|ch|x|z)$/i'    => '\1es',
      * ));
      * </code>
      *
-     * @param   mixed   $rules          An array of rules ($re => $replace) or
-     *                                  a regular expression string
+     * @param   mixed   $rules          An array of rules ($regex => $replace) or
+     *                                  a regular expression
      * @param   string  $replacement    If rules is a string, the replacement
      *                                  to use in case of a match
      * @return  void
@@ -79,23 +97,23 @@ class Plural
      * plural rules. May be used to add rules one at a time:
      *
      * <code>
-     * Inflector::addIrregular('man', 'men');
+     * Plural::addIrregular('man', 'men');
      * </code>
      *
      * or all at once:
      *
      * <code>
-     * Inflector::addIrregular(array(
+     * Plural::addIrregular(array(
      *     'man'       => 'men',
      *     'person'    => 'people'
      * ));
      * </code>
      *
-     * @param   mixed   $rules  The singular form of the noun or an array of irregular nouns
-     * @param   string  $plural The plural form of the noun
+     * @param   mixed   $words      The singular form of the irregular noun(s)
+     * @param   string  $plural     The plural form of the noun
      * @return  void
      */
-    public static function addIrregular($words, $plural = '')
+    public static function addIrregular($words, $plural='')
     {
         if (!is_array($words)) {
             $words = array($words => $plural);
@@ -109,7 +127,7 @@ class Plural
      * Marks a word as uncountable, meaning that the plural form of the word
      * is the same as its singular form.
      *
-     * @param   mixed   $word   The word (or an array of words) to mark as uncountable
+     * @param   mixed   $words  The word(s) to mark as uncountable
      * @return  void
      */
     public static function addUncountable($words)
@@ -149,6 +167,6 @@ class Plural
 
 }
 
-// use English as the default language
-Plural::setLanguage('en');
+// load the English language by default
+Plural::loadLanguage('en');
 
