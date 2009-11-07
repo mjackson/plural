@@ -13,18 +13,18 @@ Plural::addRules(array(
     '/(m|l)ouse$/i'                 => '\1ice',     // mouse, louse
     '/(t|i)um$/i'                   => '\1a',       // datum, medium
     '/([li])fe?$/i'                 => '\1ves',     // knife, life, shelf
-    '/(octop|vir)us$/i'             => '\1i',       // octopus, virus
+    '/(octop|vir|syllab)us$/i'      => '\1i',       // octopus, virus, syllabus
     '/(ax|test)is$/i'               => '\1es',      // axis, testis
     '/([a-rt-z])$/i'                => '\1s'        // not ending in s
 ));
 
 // words that don't follow any pluralization rules
 Plural::addIrregulars(array(
+    'bus'           => 'busses',
     'child'         => 'children',
     'man'           => 'men',
     'person'        => 'people',
     'quiz'          => 'quizzes',
-    'syllabus'      => 'syllabi',
     // words whose singular and plural forms are the same
     'equipment'     => 'equipment',
     'fish'          => 'fish',

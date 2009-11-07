@@ -20,6 +20,7 @@ class PluralTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Plural::pluralize('medium'), 'media');
         $this->assertEquals(Plural::pluralize('knife'), 'knives');
         $this->assertEquals(Plural::pluralize('shelf'), 'shelves');
+        $this->assertEquals(Plural::pluralize('syllabus'), 'syllabi');
         $this->assertEquals(Plural::pluralize('octopus'), 'octopi');
         $this->assertEquals(Plural::pluralize('axis'), 'axes');
         $this->assertEquals(Plural::pluralize('dogs'), 'dogs');
@@ -28,13 +29,10 @@ class PluralTest extends PHPUnit_Framework_TestCase
 
     public function testIrregulars()
     {
+        $this->assertEquals(Plural::pluralize('bus'), 'busses');
+        $this->assertEquals(Plural::pluralize('child'), 'children');
         $this->assertEquals(Plural::pluralize('man'), 'men');
         $this->assertEquals(Plural::pluralize('person'), 'people');
-        $this->assertEquals(Plural::pluralize('child'), 'children');
-    }
-
-    public function testUncountables()
-    {
         $this->assertEquals(Plural::pluralize('news'), 'news');
         $this->assertEquals(Plural::pluralize('money'), 'money');
         $this->assertEquals(Plural::pluralize('rice'), 'rice');
