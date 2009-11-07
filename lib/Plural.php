@@ -42,8 +42,7 @@ class Plural
         if (!isset(self::$_rules[$language])) {
             self::$_rules[$language] = array(
                 'plural'        => array(),
-                'irregular'     => array(),
-                'uncountable'   => array()
+                'irregular'     => array()
             );
 
             $langFile = dirname(__FILE__) . "/rules/$language.php";
@@ -122,32 +121,6 @@ class Plural
     }
 
     /**
-     * Marks a word as uncountable, meaning that the plural form of the word
-     * is the same as its singular form.
-     *
-     * @param   string  $word   The word to mark as uncountable
-     * @return  void
-     */
-    public static function addUncountable($word)
-    {
-        self::$_rules[self::$_currentLanguage]['uncountable'][] = $word;
-    }
-
-    /**
-     * Marks many words as uncountable at once.
-     *
-     * @param   array
-     * @return  void
-     * @see     Plural::addUncountable()
-     */
-    public static function addUncountables($words)
-    {
-        foreach ($words as $word) {
-            self::addUncountable($word);
-        }
-    }
-
-    /**
      * Converts a singular noun to its plural form.
      *
      * @param   string  $word   The singular word
@@ -162,9 +135,6 @@ class Plural
         $word = trim($word);
         $rules = self::$_rules[self::$_currentLanguage];
 
-        if (in_array($word, $rules['uncountable'])) {
-            return $word;
-        }
         if (isset($rules['irregular'][$word])) {
             return $rules['irregular'][$word];
         }

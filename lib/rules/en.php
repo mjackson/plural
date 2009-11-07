@@ -6,7 +6,6 @@ Plural::setLanguage(basename(__FILE__, '.php'));
 // note: order here is important!
 Plural::addRules(array(
     '/(matr|vert|ind)(ix|ex)$/i'    => '\1ices',    // matrix, vertex, index
-    '/(quiz)$/i'                    => '\1zes',     // quiz
     '/(ss|sh|ch|x|z)$/i'            => '\1es',      // sibilant rule (no ending e)
     '/([^aeiou])o$/i'               => '\1oes',     // -oes rule
     '/([^aeiou]|qu)y$/i'            => '\1ies',     // -ies rule
@@ -16,28 +15,26 @@ Plural::addRules(array(
     '/([li])fe?$/i'                 => '\1ves',     // knife, life, shelf
     '/(octop|vir)us$/i'             => '\1i',       // octopus, virus
     '/(ax|test)is$/i'               => '\1es',      // axis, testis
-    '/s$/i'                         => 's',         // all other s
-    '/$/'                           => 's'          // catch all
+    '/([a-rt-z])$/i'                => '\1s'        // not ending in s
 ));
 
 // words that don't follow any pluralization rules
 Plural::addIrregulars(array(
-    'man'       => 'men',
-    'person'    => 'people',
-    'child'     => 'children'
-));
-
-// words whose singular and plural forms are the same
-Plural::addUncountables(array(
-    'news',
-    'money',
-    'equipment',
-    'information',
-    'rice',
-    'species',
-    'series',
-    'fish',
-    'sheep',
-    'moose'
+    'child'         => 'children',
+    'man'           => 'men',
+    'person'        => 'people',
+    'quiz'          => 'quizzes',
+    'syllabus'      => 'syllabi',
+    // words whose singular and plural forms are the same
+    'equipment'     => 'equipment',
+    'fish'          => 'fish',
+    'information'   => 'information',
+    'money'         => 'money',
+    'moose'         => 'moose',
+    'news'          => 'news',
+    'rice'          => 'rice',
+    'series'        => 'series',
+    'sheep'         => 'sheep',
+    'species'       => 'species'
 ));
 
