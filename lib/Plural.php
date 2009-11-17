@@ -4,7 +4,7 @@
  * Contains functions that may be used to pluralize words according to the
  * pluralization rules of a given language.
  *
- * @author      Michael J. I. Jackson <michael@mjijackson.com>
+ * @author  Michael J. I. Jackson <michael@mjijackson.com>
  */
 class Plural
 {
