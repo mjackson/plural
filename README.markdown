@@ -1,4 +1,4 @@
-# Overview
+### Overview
 
 Plural is a library that provides natural language pluralization functions for PHP. The library currently supports the following languages:
 
@@ -6,7 +6,7 @@ Plural is a library that provides natural language pluralization functions for P
 
 However, Plural can easily be extended to support any language. If your language is not supported, you are encouraged to contribute a rules file to the project.
 
-# Usage
+### Usage
 
     plural('dog');      # dogs
     plural('matrix');   # matrices
@@ -14,17 +14,16 @@ However, Plural can easily be extended to support any language. If your language
     plural('person');   # people
     plural('sheep');    # sheep
 
-# Tests
+### Tests
 
 Plural uses the [PHPUnit](http://www.phpunit.de/) unit testing framework to test the code. In order to run the tests, do the following from the project root directory:
 
     $ phpunit tests/Plural.php
 
-# Requirements
+### Requirements
 
 Plural requires PHP version 5 or greater.
 
-# License
+### License
 
 Plural is released under the terms of the MIT license. Please read the LICENSE file for further information.
-

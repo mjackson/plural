@@ -150,9 +150,6 @@ class Plural
 
 }
 
-// load the English language by default
-Plural::loadLanguage('en');
-
 /**
  * Convenience function for getting the plural form of a singular word.
  *
@@ -165,3 +162,5 @@ function plural($word)
     return Plural::pluralize($word);
 }
 
+// load the English language by default
+Plural::loadLanguage('en');
